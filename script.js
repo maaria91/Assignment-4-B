@@ -70,21 +70,37 @@ function dataLoaded(error, data, metadata){
     //})
 
 
-    plot.append('path')
+    plot.append('path')  // FOR TEA
         .datum(nestedData[0].values)
         .attr('class','tea-data-line data-line')
-        .attr('d',lineGenerator)
-        .call(attachTooltip)
+        .attr('d',lineGenerator);
+
+    plot.selectAll('t')
+        .data(nestedData[0].values)
+        .enter()
+        .append('circle').attr('class','data-point tea-data-point')
+        .attr('cx', function(d){return scaleX(d.year);})
+        .attr('cy', function(d){ return scaleY(d.value);})
+        .attr('r',3)
+        .call(attachTooltip);
 
 
 
 
-
-    plot.append('path')
+    plot.append('path') // FOR COFFEE
         .datum(nestedData[1].values)
         .attr('class','coffee-data-line data-line')
-        .attr('d',lineGenerator)
-        .call(attachTooltip)
+        .attr('d',lineGenerator);
+
+
+    plot.selectAll('c')
+        .data(nestedData[1].values)
+        .enter()
+        .append('circle').attr('class','data-point coffee-data-point')
+        .attr('cx', function(d){return scaleX(d.year);})
+        .attr('cy', function(d){ return scaleY(d.value);})
+        .attr('r',3)
+        .call(attachTooltip);
 
 
     }
@@ -97,7 +113,7 @@ function attachTooltip(selection){
                 .transition()
                 .style('opacity',1);
 
-            tooltip.select('#type').html(d.item);
+            tooltip.select('#item').html(d.item);
             tooltip.select('#year').html(d.year);
             tooltip.select('#value').html(d.value);
         })
